@@ -1,5 +1,6 @@
 import { Component } from "react"
 import BusinessCardDisplay from "./BusinessCardDisplay";
+import BusinessCardForm from "./BusinessCardForm";
 
 export default class BusinessCardParent extends Component {
     constructor(){
@@ -7,16 +8,32 @@ export default class BusinessCardParent extends Component {
 
         this.state = {
             name: "Default Name",
-            email: "example@email.com"
+            email: "example@email.com",
+            editMode: false
         }
     }
 
+    updateState = (stateKeyId, newStateValue) => {
+        console.log("from parent " + newStateValue)
+        this.setState({
+            [stateKeyId]: newStateValue
+        })
+    }
+
     render(){
-        return(
-            <div>
+        if (this.state.editMode) {
+            return(
+                <BusinessCardForm 
+                    name={this.state.name} 
+                    email={this.state.email}
+                    updateState={this.updateState}
+                    />
+            )
+        } else {
+            return (
                 <BusinessCardDisplay name={this.state.name} email={this.state.email} />
-            </div>
-        )
+            )
+        }      
     }
 
 }
